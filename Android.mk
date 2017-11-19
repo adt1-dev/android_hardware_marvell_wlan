@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 LOCAL_PATH := $(call my-dir)
 
 ifneq ($(BOARD_HAVE_MARVELL_WIFI),)
@@ -23,6 +24,7 @@ ifneq ($(BOARD_WPA_SUPPLICANT_DRIVER),)
   CONFIG_DRIVER_$(BOARD_WPA_SUPPLICANT_DRIVER) := y
 endif
 
+L_CFLAGS :=
 WPA_SUPPL_DIR = external/wpa_supplicant_8
 WPA_SRC_FILE :=
 
@@ -46,7 +48,7 @@ WPA_SRC_FILE += driver_cmd_wext.c
 endif
 
 # To force sizeof(enum) = 4
-L_CFLAGS += -mabi=aapcs-linux
+#L_CFLAGS += -mabi=aapcs-linux
 
 ifdef CONFIG_ANDROID_LOG
 L_CFLAGS += -DCONFIG_ANDROID_LOG
@@ -58,7 +60,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := lib_driver_cmd_mrvl
 LOCAL_SHARED_LIBRARIES := libc libcutils
 LOCAL_CFLAGS := $(L_CFLAGS)
-LOCAL_CFLAGS += -Werror
+LOCAL_CFLAGS += -Werror=pointer-to-int-cast
 LOCAL_SRC_FILES := $(WPA_SRC_FILE)
 LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
 include $(BUILD_STATIC_LIBRARY)
@@ -67,4 +69,3 @@ include $(BUILD_STATIC_LIBRARY)
 
 endif
 endif
-
